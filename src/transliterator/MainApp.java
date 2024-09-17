@@ -9,7 +9,6 @@ import transliterator.scenes.FileSceneController;
 import transliterator.scenes.SceneController;
 import transliterator.scenes.TextSceneController;
 
-import java.util.Objects;
 
 public class MainApp extends Application {
 
