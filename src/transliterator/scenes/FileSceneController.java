@@ -11,7 +11,6 @@ import transliterator.Transliterator;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
@@ -21,9 +20,7 @@ public class FileSceneController {
     private Stage stage;
     private final FileChooser fileChooser;
     private List<File> selectedFiles;
-    private String textFromFile;
-    private String transliteratedText;
-    private boolean hasFilesBeenChosen;
+    private boolean areFilesChosen;
 
     @FXML
     private TextArea textOfSelectedFiles;
@@ -44,71 +41,79 @@ public class FileSceneController {
 
     @FXML
     public void chooseFiles() {
-        selectedFiles = Objects.requireNonNull(fileChooser.showOpenMultipleDialog(stage));
-        updateChosenFiles();
-    }
-
-    public void updateChosenFiles() {
-        StringBuilder fileNames = new StringBuilder();
-        for (File file : selectedFiles)
-            fileNames.append(file.getName()).append(", ");
-        textOfSelectedFiles.setText(fileNames.toString());
-        hasFilesBeenChosen = true;
+        selectedFiles = fileChooser.showOpenMultipleDialog(stage);
+        if (selectedFiles != null) {updateTextAreaListOfChosenFiles();}
     }
 
     @FXML
     public void transliterateAndSaveTextIntoOldFiles() throws IOException {
-        if (hasFilesBeenChosen) {
+        if (!checkIfFilesChosen(textUnderTransliterateChosenFilesButton)) {return;}
             for (File file : selectedFiles) {
-                textFromFile = Files.readString(file.toPath());
-                transliteratedText = Transliterator.transliterateInputText(textFromFile);
-                Files.writeString(file.toPath(), transliteratedText);
+                transliterateAndSave(file, file);
             }
-            hasFilesBeenChosen = false;
-            textUnderTransliterateChosenFilesButton.setText("Файли було успішно транслітеровано!");
-            textUnderTransliterateChosenFilesButton.setFill(Color.GREEN);
-            textOfSelectedFiles.setText("Оберіть один файл або більше");
-        }
-        else {
-            textUnderTransliterateChosenFilesButton.setFill(Color.RED);
-            textUnderTransliterateChosenFilesButton.setText("Оберіть файли перш ніж почати транслітерацію");
-        }
-
+            successfulTransliterationMessage(textUnderTransliterateChosenFilesButton);
+            areFilesChosen = false;
     }
 
     @FXML
     public void transliterateAndSaveTextIntoNewFiles() throws IOException {
-        if (hasFilesBeenChosen) {
+        if (!checkIfFilesChosen(textUnderCreateNewFilesButton)) {return;}
             DirectoryChooser directoryChooser = new DirectoryChooser();
             File selectedDirectory = directoryChooser.showDialog(stage);
-            for (File file : selectedFiles) {
-                String newFileName = generateNewFileName(file);
-                File newFile = new File(selectedDirectory, newFileName);
-                textFromFile = Files.readString(file.toPath());
-                transliteratedText = Transliterator.transliterateInputText(textFromFile);
-                Files.writeString(newFile.toPath(), transliteratedText);
+            if (selectedDirectory != null) {
+                for (File file : selectedFiles) {
+                    String newFileName = generateNewFileName(file);
+                    File newFile = new File(selectedDirectory, newFileName);
+                    transliterateAndSave(file, newFile);
+                }
             }
-            hasFilesBeenChosen = false;
-            textUnderCreateNewFilesButton.setText("Файли було успішно транслітеровано!");
-            textUnderCreateNewFilesButton.setFill(Color.GREEN);
-            textOfSelectedFiles.setText("Оберіть один файл або більше");
-        }
-        else {
-            textUnderCreateNewFilesButton.setFill(Color.RED);
-            textUnderCreateNewFilesButton.setText("Оберіть файли перш ніж почати транслітерацію");
-        }
+            successfulTransliterationMessage(textUnderCreateNewFilesButton);
+            areFilesChosen = false;
     }
-    private String generateNewFileName(File originalFile) {
-        String originalName = originalFile.getName();
-        return originalName.replaceFirst("(\\.[^.]+)$", "_latin$1");
-    }
-
 
     @FXML
     public void switchToTextTransliterationScene () throws IOException {
         sceneController.switchToTextTransliterationScene();
     }
 
+
+    private String generateNewFileName(File originalFile) {
+        String originalName = originalFile.getName();
+        return originalName.replaceFirst("(\\.[^.]+)$", "_latin$1");
+    }
+
+    private void updateTextAreaListOfChosenFiles() {
+        StringBuilder fileNames = new StringBuilder();
+        for (File file : selectedFiles)
+            fileNames.append(file.getName()).append(", ");
+        textOfSelectedFiles.setText(fileNames.toString());
+        areFilesChosen = true;
+    }
+
+    private void transliterateAndSave(File inputFile, File outputFile) throws IOException {
+        String textFromFile = Files.readString(inputFile.toPath());
+        String transliteratedText = Transliterator.transliterateInputText(textFromFile);
+        Files.writeString(outputFile.toPath(), transliteratedText);
+    }
+
+    private boolean checkIfFilesChosen(Text textUnderButton) {
+        if (!areFilesChosen) {
+            filesAreNotChosenMessage(textUnderButton);
+            return false;
+        }
+        return true;
+    }
+    
+    private void successfulTransliterationMessage(Text textUnderButton) {
+        textUnderButton.setText("Файли було успішно транслітеровано!");
+        textUnderButton.setFill(Color.GREEN);
+        textOfSelectedFiles.setText("Оберіть один файл або більше");
+    }
+
+    private void filesAreNotChosenMessage(Text textUnderButton) {
+        textUnderButton.setFill(Color.RED);
+        textUnderButton.setText("Оберіть файли перш ніж почати транслітерацію");
+    }
 
 
 
