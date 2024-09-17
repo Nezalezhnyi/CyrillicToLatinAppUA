@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="transliterator.MainApp"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transliterator.scenes.FileSceneController">
+   <children>
+      <VBox layoutX="27.0" layoutY="118.0" prefHeight="510.0" prefWidth="829.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="829.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#chooseFiles" prefHeight="39.0" prefWidth="159.0" text="Обрати файли">
+                     <font>
+                        <Font name="Calibri" size="18.5" />
+                     </font>
+                  </Button>
+                  <TextArea fx:id="textOfSelectedFiles" editable="false" prefHeight="151.0" prefWidth="623.0" text="Оберіть один файл або більше">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Calibri" size="14.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" prefHeight="96.0" prefWidth="882.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#switchToTextTransliterationScene" prefHeight="34.0" prefWidth="203.0" text="Транслітерувати файл">
+               <font>
+                  <Font name="Calibri" size="18.5" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>

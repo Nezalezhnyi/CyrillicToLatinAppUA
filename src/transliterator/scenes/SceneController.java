@@ -1,32 +1,31 @@
 package transliterator.scenes;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.Objects;
 
 public class SceneController {
     private final Stage stage;
+    private final Scene textScene;
+    private final Scene fileScene;
 
-    public SceneController(Stage stage) { this.stage = stage; }
+    public SceneController(Stage stage, Scene textScene, Scene fileScene) {
+        this.stage = stage;
+        this.textScene = textScene;
+        this.fileScene = fileScene;
+    }
 
     public void switchToTextTransliterationScene() throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/textResources/TextTransliterationScene.fxml")));
-        Scene scene = new Scene(root);
-        //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/textResources/TextStyle.css")).toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        stage.setScene(textScene);
     }
 
     public void switchToFileTransliterationScene () throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/FileTransliterationScene.fxml")));
-        Scene scene = new Scene(root);
-        //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        stage.setScene(fileScene);
     }
 }
