@@ -44,9 +44,9 @@ public class Transliterator {
     );
 
     public static String transliterateInputText(String inputText) {
-        return Arrays.stream(inputText.split(""))
-                .map(letter -> transliteration.getOrDefault(letter, letter))
-                .collect(Collectors.joining());
+        return Arrays.stream(inputText.split("")) // Splits an inputText into separate letters and symbols
+                .map(letter -> transliteration.getOrDefault(letter, letter)) // Maps (changes) an input letter using the corresponding latin letter in the transliteration Map; passes a letter (including symbols and spaces) if it doesn't appear in the Map
+                .collect(Collectors.joining()); // Joins transliterated letters (and unchangeable symbols with spaces) into one string and returns it
     }
 
 }

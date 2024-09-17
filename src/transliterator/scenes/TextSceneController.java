@@ -1,18 +1,12 @@
 package transliterator.scenes;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import transliterator.Transliterator;
 
 import java.io.IOException;
-import java.util.Objects;
-
 
 public class TextSceneController {
 
@@ -25,33 +19,33 @@ public class TextSceneController {
     private TextArea textAreaOutput;
 
     @FXML
-    public void initialize() {
-        textAreaInput.setEditable(true);
-        textAreaOutput.setEditable(false);
-        textAreaInput.setWrapText(true);
-        textAreaOutput.setWrapText(true);
+    public void transliterateText() {
+        String inputText = textAreaInput.getText(); // Gets the written text from the first text area and stores it as a string in inputText
+        String transliteratedText = Transliterator.transliterateInputText(inputText); //transliterates the input text
+        textAreaOutput.setText(transliteratedText); // Sets the transliterated text into the second text area (output)
     }
 
     @FXML
-    public void transliterateText(ActionEvent event) {
-        String inputText = textAreaInput.getText();
-        String transliteratedText = Transliterator.transliterateInputText(inputText);
-        textAreaOutput.setText(transliteratedText);
+    public void copyOutputText() {
+        ClipboardContent copiedOutputText = new ClipboardContent(); // Creates a ClipBoardContent object to store copied text
+        copiedOutputText.putString(textAreaOutput.getText()); // Retrieves the transliterated text from the output text area and stores it in the ClipboardContent object
+        Clipboard.getSystemClipboard().setContent(copiedOutputText); // Clipboard.getSystemClipboard() gets access to the OS clipboard where we store our copiedOutputText using the setContent() method
     }
 
     @FXML
-    public void copyOutputText(ActionEvent event) {
-        ClipboardContent copiedOutputText = new ClipboardContent();
-        copiedOutputText.putString(textAreaOutput.getText());
-        Clipboard.getSystemClipboard().setContent(copiedOutputText);
+    public void clearInputAndOutputTexts() {
+        textAreaInput.setText(""); // Simply erases written texts
+        textAreaOutput.setText("");
     }
 
     @FXML
-    public void switchToFileTransliterationScene (ActionEvent event) throws IOException {
-        sceneController.switchToFileTransliterationScene();
+    public void switchToFileTransliterationScene () throws IOException {
+        sceneController.switchToFileTransliterationScene(); //Switches to the file transliteration scene using the sceneController
     }
 
     public void setSceneController(SceneController sceneController) {
-        this.sceneController = sceneController;
+        this.sceneController = sceneController; // Sets the sceneController, which contains the switchToFileTransliterationScene() method.
+                                                // This method is linked to the respective button in Scene Builder and is used to switch scenes.
+                                                // It calls stage.setScene(fileScene), where fileScene contains the FXML objects loaded by the MainApp class.
     }
 }

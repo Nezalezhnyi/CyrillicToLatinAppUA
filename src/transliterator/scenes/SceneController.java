@@ -1,14 +1,7 @@
 package transliterator.scenes;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.util.Objects;
 
 public class SceneController {
     private final Stage stage;
@@ -21,11 +14,11 @@ public class SceneController {
         this.fileScene = fileScene;
     }
 
-    public void switchToTextTransliterationScene() throws IOException {
+    public void switchToTextTransliterationScene() {
         stage.setScene(textScene);
     }
 
-    public void switchToFileTransliterationScene () throws IOException {
+    public void switchToFileTransliterationScene () {
         stage.setScene(fileScene);
     }
 }

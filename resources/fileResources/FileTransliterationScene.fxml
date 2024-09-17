@@ -20,7 +20,7 @@
                         <Font name="Calibri" size="18.5" />
                      </font>
                   </Button>
-                  <TextArea fx:id="textOfSelectedFiles" editable="false" prefHeight="151.0" prefWidth="623.0" text="Оберіть один файл або більше">
+                  <TextArea fx:id="textOfSelectedFiles" editable="false" prefHeight="151.0" prefWidth="623.0" text="Оберіть один файл або більше" wrapText="true">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
