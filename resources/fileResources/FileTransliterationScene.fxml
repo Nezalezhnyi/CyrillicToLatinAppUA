@@ -9,18 +9,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transliterator.scenes.FileSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transliterator.scenes.FileSceneController">
    <children>
       <VBox layoutX="27.0" layoutY="118.0" prefHeight="510.0" prefWidth="829.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="829.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#chooseFiles" prefHeight="39.0" prefWidth="159.0" text="Обрати файли">
+                  <Button focusTraversable="false" mnemonicParsing="false" onAction="#chooseFiles" prefHeight="39.0" prefWidth="159.0" text="Обрати файли">
                      <font>
                         <Font name="Calibri" size="18.5" />
                      </font>
                   </Button>
-                  <TextArea fx:id="textOfSelectedFiles" editable="false" prefHeight="151.0" prefWidth="623.0" text="Оберіть один файл або більше" wrapText="true">
+                  <TextArea fx:id="textOfSelectedFiles" editable="false" focusTraversable="false" prefHeight="151.0" prefWidth="623.0" text="Оберіть один файл або більше" wrapText="true">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
@@ -37,7 +37,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="377.0">
                      <children>
-                        <Button fx:id="textUnderTransliterateChosenFiles" mnemonicParsing="false" onAction="#transliterateAndSaveTextIntoOldFiles" text="Транслітерувати обрані файли">
+                        <Button fx:id="textUnderTransliterateChosenFiles" focusTraversable="false" mnemonicParsing="false" onAction="#transliterateAndSaveTextIntoOldFiles" text="Транслітерувати обрані файли">
                            <font>
                               <Font name="Calibri" size="18.5" />
                            </font>
@@ -51,7 +51,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="308.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#transliterateAndSaveTextIntoNewFiles" prefHeight="34.0" prefWidth="197.0" text="Створити нові файли">
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#transliterateAndSaveTextIntoNewFiles" prefHeight="34.0" prefWidth="197.0" text="Створити нові файли">
                            <font>
                               <Font name="Calibri" size="18.5" />
                            </font>
@@ -65,15 +65,79 @@
                   </VBox>
                </children>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="103.0" prefWidth="829.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="210.0" prefWidth="167.0">
+                     <children>
+                        <HBox prefHeight="19.0" prefWidth="100.0" spacing="5.0">
+                           <children>
+                              <Text fx:id="cyrillicTextAboveChangeDirectionButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Кирилиця">
+                                 <font>
+                                    <Font name="Calibri" size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text fx:id="latinTextAboveChangeDirectionButton" strokeType="OUTSIDE" strokeWidth="0.0" text="Латиниця">
+                                 <font>
+                                    <Font name="Calibri" size="16.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="1.0" top="6.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#switchTransliterationDirection" text="Змінити напрямок">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER" prefHeight="96.0" prefWidth="882.0">
+      <HBox alignment="CENTER" layoutY="1.0" prefHeight="109.0" prefWidth="882.0" spacing="65.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#switchToTextTransliterationScene" prefHeight="34.0" prefWidth="203.0" text="Транслітерувати файл">
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#switchToTextTransliterationScene" text="Транслітерувати текст">
                <font>
                   <Font name="Calibri" size="18.5" />
                </font>
             </Button>
+            <Button focusTraversable="false" mnemonicParsing="false" prefHeight="34.0" prefWidth="203.0" text="Транслітерувати файл">
+               <font>
+                  <Font name="Calibri" size="18.5" />
+               </font>
+            </Button>
+            <Button focusTraversable="false" lineSpacing="30.0" mnemonicParsing="false" text="Змінити правила">
+               <font>
+                  <Font name="Calibri" size="18.5" />
+               </font>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="563.0" prefHeight="117.0" prefWidth="882.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="117.0" prefWidth="412.0">
+               <children>
+                  <Text fx:id="warningMessageUnderChangeDirection" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="308.0" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>

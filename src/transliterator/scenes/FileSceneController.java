@@ -20,6 +20,7 @@ public class FileSceneController {
     private Stage stage; // The primary stage used to block user interaction while choosing a directory
     private List<File> selectedFiles; // Stores the list of files selected in a dialog window for later transliteration
     private boolean areFilesChosen; // Tracks whether files have been chosen to prevent starting the transliteration without selection
+    private boolean isToLatin = true;
 
     @FXML
     private TextArea textOfSelectedFiles; // The text in the text area
@@ -27,6 +28,19 @@ public class FileSceneController {
     private Text textUnderTransliterateChosenFilesButton;
     @FXML
     private Text textUnderCreateNewFilesButton;
+    @FXML
+    private Text cyrillicTextAboveChangeDirectionButton;
+    @FXML
+    private Text latinTextAboveChangeDirectionButton;
+    @FXML
+    private Text warningMessageUnderChangeDirection;
+
+    @FXML
+    public void initialize() {
+        cyrillicTextAboveChangeDirectionButton.setFill(Color.rgb(255,128,0));
+        latinTextAboveChangeDirectionButton.setFill(Color.rgb(0, 102, 204));
+        warningMessageUnderChangeDirection.setFill(Color.RED);
+    }
 
     @FXML
     public void chooseFiles() {
@@ -78,6 +92,13 @@ public class FileSceneController {
         sceneController.switchToTextTransliterationScene(); // Uses sceneController, got from the MainApp.java using setter, to switch to the Text scene
     }
 
+    @FXML
+    public void switchTransliterationDirection() {
+        isToLatin = !isToLatin;
+        switchCyrillicAndLatinTextsAboveTextAreas();
+        showWarningChangingDirectionsMessage();
+    }
+
 
     private String generateNewFileName(File originalFile) {
         String originalName = originalFile.getName();
@@ -93,7 +114,7 @@ public class FileSceneController {
 
     private void transliterateAndSave(File inputFile, File outputFile) throws IOException {
         String textFromFile = Files.readString(inputFile.toPath()); // Reads text from the file (inputFile.toPath() returns URL which is used by readString() to get the string text from the URL and store it in the textFromFile
-        String transliteratedText = Transliterator.transliterateInputText(textFromFile);
+        String transliteratedText = Transliterator.transliterateInputText(textFromFile, isToLatin);
         Files.writeString(outputFile.toPath(), transliteratedText); // Saves the transliterated text into the outputFile we chose (or didn't)
     }
 
@@ -121,6 +142,33 @@ public class FileSceneController {
         textUnderButton.setText("Обрано файл із непідтримуваним форматом");
     }
 
+    private void switchCyrillicAndLatinTextsAboveTextAreas() {
+        if (isToLatin) {
+            cyrillicTextAboveChangeDirectionButton.setText("Кирилиця");
+            latinTextAboveChangeDirectionButton.setText("Латиниця");
+
+            cyrillicTextAboveChangeDirectionButton.setFill(Color.rgb(255,128,0));
+            latinTextAboveChangeDirectionButton.setFill(Color.rgb(0, 102, 204));
+        } else {
+            cyrillicTextAboveChangeDirectionButton.setText("Латиниця");
+            latinTextAboveChangeDirectionButton.setText("Кирилиця");
+
+            latinTextAboveChangeDirectionButton.setFill(Color.rgb(255,128,0));
+            cyrillicTextAboveChangeDirectionButton.setFill(Color.rgb(0, 102, 204));
+        }
+    }
+
+    private void showWarningChangingDirectionsMessage() {
+        if (!isToLatin)
+            warningMessageUnderChangeDirection.setText(
+                            "Увага! Кирилізація системних або технічних файлів " +
+                            "змінить системні команди й важливі символи також, " +
+                            "що може порушити нормальну роботу файлів. " +
+                            "Уникайте кирилізації технічних та системних файлів!"
+            );
+        else
+            warningMessageUnderChangeDirection.setText("");
+    }
 
 
     public void setSceneController(SceneController sceneController) {

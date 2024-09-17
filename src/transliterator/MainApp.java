@@ -24,6 +24,7 @@ public class MainApp extends Application {
         Parent fileSceneRoot = fileFXMLObjectsLoader.load(); // it saves the information of fxml objects and assigns it to the respective root (root is the object where all fxml objects are located it)
         Scene textScene = new Scene(textSceneRoot); // Creates the Text scene (for text "translation") with the TextTransliterationScene fxml objects. The root node is passed to the scene to display all its elements
         Scene fileScene = new Scene(fileSceneRoot); // Creates the File scene (for files' changing) with the FileTransliterationScene fxml objects
+        primaryStage.setTitle("Transliterator");
         primaryStage.setScene(textScene); // textScene is used as the scene we see after launching the software (could've been fileScene)
         primaryStage.show();
 
@@ -34,5 +35,7 @@ public class MainApp extends Application {
         fileSceneController.setSceneController(sceneController); // Passes the sceneController to the instance. It needs the sceneController object to use its switch method and link it to the fxml button
 
         fileSceneController.setStage(primaryStage); //The instance (fileSceneController) needs the stage for using DirectoryChooser class
+
+        textScene.getStylesheets().add(getClass().getResource("/textResources/TextStyle.css").toExternalForm());
     }
 }

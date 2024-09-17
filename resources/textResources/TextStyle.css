@@ -1,3 +1,11 @@
 .text-area {
-    -fx-font-size: 16px;
+    -fx-font-size: 15px;
+}
+
+#textAreaInput {
+    -fx-background-color: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
+#textAreaOutput {
+    -fx-background-color: linear-gradient(to right, #66B2FF, #0066CC);
 }
