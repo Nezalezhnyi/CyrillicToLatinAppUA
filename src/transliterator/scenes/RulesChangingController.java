@@ -2,18 +2,17 @@ package transliterator.scenes;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import transliterator.Transliterator;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class RulesChangingController {
     private SceneController sceneController;
-    private int whichLatinIsUsed;
 
     @FXML
-    private TextArea textAreaLatA, textAreaLatB, textAreaLatV, textAreaLatH, textAreaLatG,
+    private TextArea textAreaLatA, textAreaLatB, textAreaLatV, textAreaLatH, textAreaLatG, textAreaLatD,
             textAreaLatE, textAreaLatJE, textAreaLatZH, textAreaLatZ, textAreaLatY,
             textAreaLatI, textAreaLatJI, textAreaLatJ, textAreaLatK, textAreaLatL,
             textAreaLatM, textAreaLatN, textAreaLatO, textAreaLatP, textAreaLatR,
@@ -21,27 +20,109 @@ public class RulesChangingController {
             textAreaLatC, textAreaLatCH, textAreaLatSH, textAreaLatSHCH,
             textAreaLatSoft, textAreaLatJU, textAreaLatJA, textAreaLatJO, textAreaLatSoftO;
 
-    private final Map<TextArea, String> defaultValuesMap = new HashMap<>();
-    private Map<String, TextArea> transliterationToLatinCustom = new HashMap<>();
+    private final Map<TextArea, String> transliterationToLatinMapDefault = new HashMap<>();
+    private final Map<String, TextArea> textAreaMap = new HashMap<>();
+    private final Map<TextArea, String> originalStyles = new HashMap<>();
+
+    //////
+    @FXML
+    public void updateCustomTransliterationMap() {
+        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
+            String valueText = entry.getValue().getText(); // All letters of any valueText are uppercase!!!
+            String cyrillicLetterLowerCase = entry.getKey();
+            String newLatinValueLowerCase = valueText.toLowerCase();
+            Transliterator.updateTransliterationRule(cyrillicLetterLowerCase, newLatinValueLowerCase);
+            String cyrillicLetterUpperCase = entry.getKey().toUpperCase();
+            String newLatinValueUpperCase = valueText.length() == 1 ? valueText.toUpperCase() : valueText.substring(0, 1).toUpperCase() + valueText.substring(1).toLowerCase();
+            Transliterator.updateTransliterationRule(cyrillicLetterUpperCase, newLatinValueUpperCase);
+        }
+    }
+    //////
+
+    public void highlightSameTextAreaLatValues() {
+        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
+            entry.getValue().setStyle(originalStyles.get(entry.getValue())); // Повертаємо початковий стиль
+        }
+
+        for (Map.Entry<String, TextArea> entryOriginal : textAreaMap.entrySet()) {
+            String textAreaValueTextOriginal = entryOriginal.getValue().getText();
+            for (Map.Entry<String, TextArea> entryNext : textAreaMap.entrySet()) {
+
+                if (entryOriginal != entryNext && entryOriginal.getValue() != textAreaLatJO && entryOriginal.getValue() != textAreaLatSoftO) {
+                    String textAreaValueTextNext = entryNext.getValue().getText();
+
+                    if (Objects.equals(textAreaValueTextOriginal, textAreaValueTextNext)) {
+                        entryOriginal.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
+                        entryNext.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
+                    }
+                }
+            }
+        }
+    }
+
 
     @FXML
     public void initialize() {
+        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
+            originalStyles.put(entry.getValue(), entry.getValue().getStyle());
+        }
+
         saveDefaultValues();
-        createTextAreaLatinCustomMap();
+        textAreaMap.put("а", textAreaLatA);
+        textAreaMap.put("б", textAreaLatB);
+        textAreaMap.put("в", textAreaLatV);
+        textAreaMap.put("г", textAreaLatH);
+        textAreaMap.put("ґ", textAreaLatG);
+        textAreaMap.put("д", textAreaLatD);
+        textAreaMap.put("е", textAreaLatE);
+        textAreaMap.put("є", textAreaLatJE);
+        textAreaMap.put("ж", textAreaLatZH);
+        textAreaMap.put("з", textAreaLatZ);
+        textAreaMap.put("и", textAreaLatY);
+        textAreaMap.put("і", textAreaLatI);
+        textAreaMap.put("ї", textAreaLatJI);
+        textAreaMap.put("й", textAreaLatJ);
+        textAreaMap.put("к", textAreaLatK);
+        textAreaMap.put("л", textAreaLatL);
+        textAreaMap.put("м", textAreaLatM);
+        textAreaMap.put("н", textAreaLatN);
+        textAreaMap.put("о", textAreaLatO);
+        textAreaMap.put("п", textAreaLatP);
+        textAreaMap.put("р", textAreaLatR);
+        textAreaMap.put("с", textAreaLatS);
+        textAreaMap.put("т", textAreaLatT);
+        textAreaMap.put("у", textAreaLatU);
+        textAreaMap.put("ф", textAreaLatF);
+        textAreaMap.put("х", textAreaLatKH);
+        textAreaMap.put("ц", textAreaLatC);
+        textAreaMap.put("ч", textAreaLatCH);
+        textAreaMap.put("ш", textAreaLatSH);
+        textAreaMap.put("щ", textAreaLatSHCH);
+        textAreaMap.put("ь", textAreaLatSoft);
+        textAreaMap.put("ю", textAreaLatJU);
+        textAreaMap.put("я", textAreaLatJA);
+        textAreaMap.put("йо", textAreaLatJO);
+        textAreaMap.put("ьо", textAreaLatSoftO);
+
+        //////
+        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
+            TextArea textArea = entry.getValue();
+                textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+                    highlightSameTextAreaLatValues();
+                });
+        }
+        //////
+
     }
 
 
     @FXML
     private void applyDefaultLatin() {
-        for (Map.Entry<TextArea, String> entry : defaultValuesMap.entrySet()) {
+        for (Map.Entry<TextArea, String> entry : transliterationToLatinMapDefault.entrySet()) {
             entry.getKey().setText(entry.getValue());
         }
     }
 
-    @FXML
-    private void applyCustomLatin() {
-        whichLatinIsUsed = 1;
-    }
 
 
 
@@ -60,76 +141,45 @@ public class RulesChangingController {
     }
 
     private void saveDefaultValues() {
-        defaultValuesMap.put(textAreaLatA, textAreaLatA.getText());
-        defaultValuesMap.put(textAreaLatB, textAreaLatB.getText());
-        defaultValuesMap.put(textAreaLatV, textAreaLatV.getText());
-        defaultValuesMap.put(textAreaLatH, textAreaLatH.getText());
-        defaultValuesMap.put(textAreaLatG, textAreaLatG.getText());
-        defaultValuesMap.put(textAreaLatE, textAreaLatE.getText());
-        defaultValuesMap.put(textAreaLatJE, textAreaLatJE.getText());
-        defaultValuesMap.put(textAreaLatZH, textAreaLatZH.getText());
-        defaultValuesMap.put(textAreaLatZ, textAreaLatZ.getText());
-        defaultValuesMap.put(textAreaLatY, textAreaLatY.getText());
-        defaultValuesMap.put(textAreaLatI, textAreaLatI.getText());
-        defaultValuesMap.put(textAreaLatJI, textAreaLatJI.getText());
-        defaultValuesMap.put(textAreaLatJ, textAreaLatJ.getText());
-        defaultValuesMap.put(textAreaLatK, textAreaLatK.getText());
-        defaultValuesMap.put(textAreaLatL, textAreaLatL.getText());
-        defaultValuesMap.put(textAreaLatM, textAreaLatM.getText());
-        defaultValuesMap.put(textAreaLatN, textAreaLatN.getText());
-        defaultValuesMap.put(textAreaLatO, textAreaLatO.getText());
-        defaultValuesMap.put(textAreaLatP, textAreaLatP.getText());
-        defaultValuesMap.put(textAreaLatR, textAreaLatR.getText());
-        defaultValuesMap.put(textAreaLatS, textAreaLatS.getText());
-        defaultValuesMap.put(textAreaLatT, textAreaLatT.getText());
-        defaultValuesMap.put(textAreaLatU, textAreaLatU.getText());
-        defaultValuesMap.put(textAreaLatF, textAreaLatF.getText());
-        defaultValuesMap.put(textAreaLatKH, textAreaLatKH.getText());
-        defaultValuesMap.put(textAreaLatC, textAreaLatC.getText());
-        defaultValuesMap.put(textAreaLatCH, textAreaLatCH.getText());
-        defaultValuesMap.put(textAreaLatSH, textAreaLatSH.getText());
-        defaultValuesMap.put(textAreaLatSHCH, textAreaLatSHCH.getText());
-        defaultValuesMap.put(textAreaLatSoft, textAreaLatSoft.getText());
-        defaultValuesMap.put(textAreaLatJU, textAreaLatJU.getText());
-        defaultValuesMap.put(textAreaLatJA, textAreaLatJA.getText());
-        defaultValuesMap.put(textAreaLatJO, textAreaLatJO.getText());
-        defaultValuesMap.put(textAreaLatSoftO, textAreaLatSoftO.getText());
+
+        transliterationToLatinMapDefault.put(textAreaLatA, textAreaLatA.getText());
+        transliterationToLatinMapDefault.put(textAreaLatB, textAreaLatB.getText());
+        transliterationToLatinMapDefault.put(textAreaLatV, textAreaLatV.getText());
+        transliterationToLatinMapDefault.put(textAreaLatH, textAreaLatH.getText());
+        transliterationToLatinMapDefault.put(textAreaLatG, textAreaLatG.getText());
+        transliterationToLatinMapDefault.put(textAreaLatD, textAreaLatD.getText());
+        transliterationToLatinMapDefault.put(textAreaLatE, textAreaLatE.getText());
+        transliterationToLatinMapDefault.put(textAreaLatJE, textAreaLatJE.getText());
+        transliterationToLatinMapDefault.put(textAreaLatZH, textAreaLatZH.getText());
+        transliterationToLatinMapDefault.put(textAreaLatZ, textAreaLatZ.getText());
+        transliterationToLatinMapDefault.put(textAreaLatY, textAreaLatY.getText());
+        transliterationToLatinMapDefault.put(textAreaLatI, textAreaLatI.getText());
+        transliterationToLatinMapDefault.put(textAreaLatJI, textAreaLatJI.getText());
+        transliterationToLatinMapDefault.put(textAreaLatJ, textAreaLatJ.getText());
+        transliterationToLatinMapDefault.put(textAreaLatK, textAreaLatK.getText());
+        transliterationToLatinMapDefault.put(textAreaLatL, textAreaLatL.getText());
+        transliterationToLatinMapDefault.put(textAreaLatM, textAreaLatM.getText());
+        transliterationToLatinMapDefault.put(textAreaLatN, textAreaLatN.getText());
+        transliterationToLatinMapDefault.put(textAreaLatO, textAreaLatO.getText());
+        transliterationToLatinMapDefault.put(textAreaLatP, textAreaLatP.getText());
+        transliterationToLatinMapDefault.put(textAreaLatR, textAreaLatR.getText());
+        transliterationToLatinMapDefault.put(textAreaLatS, textAreaLatS.getText());
+        transliterationToLatinMapDefault.put(textAreaLatT, textAreaLatT.getText());
+        transliterationToLatinMapDefault.put(textAreaLatU, textAreaLatU.getText());
+        transliterationToLatinMapDefault.put(textAreaLatF, textAreaLatF.getText());
+        transliterationToLatinMapDefault.put(textAreaLatKH, textAreaLatKH.getText());
+        transliterationToLatinMapDefault.put(textAreaLatC, textAreaLatC.getText());
+        transliterationToLatinMapDefault.put(textAreaLatCH, textAreaLatCH.getText());
+        transliterationToLatinMapDefault.put(textAreaLatSH, textAreaLatSH.getText());
+        transliterationToLatinMapDefault.put(textAreaLatSHCH, textAreaLatSHCH.getText());
+        transliterationToLatinMapDefault.put(textAreaLatSoft, textAreaLatSoft.getText());
+        transliterationToLatinMapDefault.put(textAreaLatJU, textAreaLatJU.getText());
+        transliterationToLatinMapDefault.put(textAreaLatJA, textAreaLatJA.getText());
+        transliterationToLatinMapDefault.put(textAreaLatJO, textAreaLatJO.getText());
+        transliterationToLatinMapDefault.put(textAreaLatSoftO, textAreaLatSoftO.getText());
     }
 
-    private void createTextAreaLatinCustomMap() {
-        transliterationToLatinCustom.put("а", textAreaLatA);
-        transliterationToLatinCustom.put("б", textAreaLatB);
-        transliterationToLatinCustom.put("в", textAreaLatV);
-        transliterationToLatinCustom.put("г", textAreaLatH);
-        transliterationToLatinCustom.put("ґ", textAreaLatG);
-        transliterationToLatinCustom.put("е", textAreaLatE);
-        transliterationToLatinCustom.put("є", textAreaLatJE);
-        transliterationToLatinCustom.put("ж", textAreaLatZH);
-        transliterationToLatinCustom.put("з", textAreaLatZ);
-        transliterationToLatinCustom.put("и", textAreaLatY);
-        transliterationToLatinCustom.put("і", textAreaLatI);
-        transliterationToLatinCustom.put("ї", textAreaLatJI);
-        transliterationToLatinCustom.put("й", textAreaLatJ);
-        transliterationToLatinCustom.put("к", textAreaLatK);
-        transliterationToLatinCustom.put("л", textAreaLatL);
-        transliterationToLatinCustom.put("м", textAreaLatM);
-        transliterationToLatinCustom.put("н", textAreaLatN);
-        transliterationToLatinCustom.put("о", textAreaLatO);
-        transliterationToLatinCustom.put("п", textAreaLatP);
-        transliterationToLatinCustom.put("р", textAreaLatR);
-        transliterationToLatinCustom.put("с", textAreaLatS);
-        transliterationToLatinCustom.put("т", textAreaLatT);
-        transliterationToLatinCustom.put("у", textAreaLatU);
-        transliterationToLatinCustom.put("ф", textAreaLatF);
-        transliterationToLatinCustom.put("х", textAreaLatKH);
-        transliterationToLatinCustom.put("ц", textAreaLatC);
-        transliterationToLatinCustom.put("ч", textAreaLatCH);
-        transliterationToLatinCustom.put("ш", textAreaLatSH);
-        transliterationToLatinCustom.put("щ", textAreaLatSHCH);
-        transliterationToLatinCustom.put("ь", textAreaLatSoft);
-        transliterationToLatinCustom.put("ю", textAreaLatJU);
-        transliterationToLatinCustom.put("я", textAreaLatJA);
-        transliterationToLatinCustom.put("йо", textAreaLatJO);
-        transliterationToLatinCustom.put("ьо", textAreaLatSoftO);
-    }
+
+
+
 }

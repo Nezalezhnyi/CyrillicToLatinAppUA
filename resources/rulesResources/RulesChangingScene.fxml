@@ -556,8 +556,8 @@
             <HBox prefHeight="100.0" prefWidth="200.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#applyDefaultLatin" text="Button" />
-                  <Button mnemonicParsing="false" onAction="#applyCustomLatin" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#applyDefaultLatin" text="ToDefault" />
+                  <Button mnemonicParsing="false" onAction="#updateCustomTransliterationMap" text="Apply" />
                </children>
             </HBox>
          </children>

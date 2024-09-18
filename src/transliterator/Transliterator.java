@@ -1,9 +1,13 @@
 package transliterator;
 
+import javafx.scene.control.TextArea;
+import transliterator.scenes.RulesChangingController;
+
 import java.util.*;
 
 public class Transliterator {
-    private static final Map<String, String> transliterationToLatinMapDefault = Map.<String, String>ofEntries(
+
+    private static Map<String, String> transliterationToLatinMapDefault = new HashMap<>(Map.<String, String>ofEntries(
             Map.entry("йо", "jo"),
             Map.entry("ьо", "jo"), Map.entry("ЬО", "JO"), Map.entry("Ьо", "Jo"), Map.entry("ьО", "jO"),
             Map.entry("а", "a"), Map.entry("А", "A"),
@@ -39,47 +43,9 @@ public class Transliterator {
             Map.entry("ю", "ju"), Map.entry("Ю", "Ju"),
             Map.entry("я", "ja"), Map.entry("Я", "Ja"),
             Map.entry("ь", "'"), Map.entry("Ь", "'")
-    );
+    ));
     private static final Map<String, String> transliterationToCyrillicMapDefault = reverseTransliterationDirection(transliterationToLatinMapDefault); // Uses the function to reverse the toLatin Map and switch cyrillic and latin letters
 
-    private static final Map<String, String> transliterationToLatinMapCustom = Map.<String, String>ofEntries(
-            Map.entry("йо", "jo"),
-            Map.entry("ьо", "jo"), Map.entry("ЬО", "JO"), Map.entry("Ьо", "Jo"), Map.entry("ьО", "jO"),
-            Map.entry("а", "a"), Map.entry("А", "A"),
-            Map.entry("б", "b"), Map.entry("Б", "B"),
-            Map.entry("в", "v"), Map.entry("В", "V"),
-            Map.entry("г", "h"), Map.entry("Г", "H"),
-            Map.entry("ґ", "g"), Map.entry("Ґ", "G"),
-            Map.entry("д", "d"), Map.entry("Д", "D"),
-            Map.entry("е", "e"), Map.entry("Е", "E"),
-            Map.entry("є", "je"), Map.entry("Є", "Je"),
-            Map.entry("ж", "ž"), Map.entry("Ж", "Ž"),
-            Map.entry("з", "z"), Map.entry("З", "Z"),
-            Map.entry("и", "y"), Map.entry("И", "Y"),
-            Map.entry("і", "i"), Map.entry("І", "I"),
-            Map.entry("ї", "ji"), Map.entry("Ї", "Ji"),
-            Map.entry("й", "j"), Map.entry("Й", "J"),
-            Map.entry("к", "k"), Map.entry("К", "K"),
-            Map.entry("л", "l"), Map.entry("Л", "L"),
-            Map.entry("м", "m"), Map.entry("М", "M"),
-            Map.entry("н", "n"), Map.entry("Н", "N"),
-            Map.entry("о", "o"), Map.entry("О", "O"),
-            Map.entry("п", "p"), Map.entry("П", "P"),
-            Map.entry("р", "r"), Map.entry("Р", "R"),
-            Map.entry("с", "s"), Map.entry("С", "S"),
-            Map.entry("т", "t"), Map.entry("Т", "T"),
-            Map.entry("у", "u"), Map.entry("У", "U"),
-            Map.entry("ф", "f"), Map.entry("Ф", "F"),
-            Map.entry("х", "x"), Map.entry("Х", "X"),
-            Map.entry("ц", "c"), Map.entry("Ц", "C"),
-            Map.entry("ч", "č"), Map.entry("Ч", "Č"),
-            Map.entry("ш", "š"), Map.entry("Ш", "Š"),
-            Map.entry("щ", "šč"), Map.entry("Щ", "Šč"),
-            Map.entry("ю", "ju"), Map.entry("Ю", "Ju"),
-            Map.entry("я", "ja"), Map.entry("Я", "Ja"),
-            Map.entry("ь", "'"), Map.entry("Ь", "'")
-    );
-    private static final Map<String, String> transliterationToCyrillicMapCustom= reverseTransliterationDirection(transliterationToLatinMapCustom);
 
     public static String transliterateInputText(String inputText, boolean isToLatin) { // Respective transliteration methods (toLatin and toCyrillic) from the FileSceneController and TextSceneController classes pass the boolean field isToLatin to specify the transliteration direction
         Map<String, String> transliterationDirection;
@@ -97,6 +63,12 @@ public class Transliterator {
         }
         return inputText;
     }
+
+    //////
+    public static void updateTransliterationRule(String cyrillicLetter, String latinEquivalent) {
+        transliterationToLatinMapDefault.put(cyrillicLetter, latinEquivalent);
+    }
+    //////
 
     private static Map<String, String> reverseTransliterationDirection(Map<String, String> transliterationMap) {
         Map<String, String> reversedMap = new LinkedHashMap<>();
