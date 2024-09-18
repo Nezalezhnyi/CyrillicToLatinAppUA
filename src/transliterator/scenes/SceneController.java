@@ -7,11 +7,13 @@ public class SceneController {
     private final Stage stage;
     private final Scene textScene;
     private final Scene fileScene;
+    private final Scene rulesScene;
 
-    public SceneController(Stage stage, Scene textScene, Scene fileScene) {
+    public SceneController(Stage stage, Scene textScene, Scene fileScene, Scene rulesScene) {
         this.stage = stage;
         this.textScene = textScene;
         this.fileScene = fileScene;
+        this.rulesScene = rulesScene;
     }
 
     public void switchToTextTransliterationScene() {
@@ -20,5 +22,9 @@ public class SceneController {
 
     public void switchToFileTransliterationScene () {
         stage.setScene(fileScene);
+    }
+
+    public void switchToRulesChangingScene () {
+        stage.setScene(rulesScene);
     }
 }

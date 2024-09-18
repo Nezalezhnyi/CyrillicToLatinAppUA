@@ -106,7 +106,7 @@
                   <Font name="Calibri" size="18.5" />
                </font>
             </Button>
-            <Button focusTraversable="false" lineSpacing="30.0" mnemonicParsing="false" text="Змінити правила">
+            <Button focusTraversable="false" lineSpacing="30.0" mnemonicParsing="false" onAction="#switchToRulesChangingScene" text="Змінити правила">
                <font>
                   <Font name="Calibri" size="18.5" />
                </font>

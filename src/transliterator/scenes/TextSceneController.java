@@ -7,7 +7,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.text.Text;
 import transliterator.Transliterator;
 import javafx.scene.paint.Color;
-import java.io.IOException;
 
 public class TextSceneController {
 
@@ -57,8 +56,13 @@ public class TextSceneController {
     }
 
     @FXML
-    public void switchToFileTransliterationScene () throws IOException {
+    public void switchToFileTransliterationScene () {
         sceneController.switchToFileTransliterationScene(); //Switches to the file transliteration scene using the sceneController
+    }
+
+    @FXML
+    public void switchToRulesChangingScene() {
+        sceneController.switchToRulesChangingScene();
     }
 
     @FXML

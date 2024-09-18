@@ -93,6 +93,11 @@ public class FileSceneController {
     }
 
     @FXML
+    public void switchToRulesChangingScene() {
+        sceneController.switchToRulesChangingScene();
+    }
+
+    @FXML
     public void switchTransliterationDirection() {
         isToLatin = !isToLatin;
         switchCyrillicAndLatinTextsAboveTextAreas();

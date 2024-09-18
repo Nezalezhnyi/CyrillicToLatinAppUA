@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transliterator.scenes.RulesChangingController">
+   <children>
+      <HBox alignment="CENTER" layoutY="1.0" prefHeight="109.0" prefWidth="882.0" spacing="65.0">
+         <children>
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#switchToTextTransliterationScene" text="Транслітерувати текст">
+               <font>
+                  <Font name="Calibri" size="18.5" />
+               </font>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false" onAction="#switchToFileTransliterationScene" prefHeight="34.0" prefWidth="203.0" text="Транслітерувати файл">
+               <font>
+                  <Font name="Calibri" size="18.5" />
+               </font>
+            </Button>
+            <Button focusTraversable="false" lineSpacing="30.0" mnemonicParsing="false" text="Змінити правила">
+               <font>
+                  <Font name="Calibri" size="18.5" />
+               </font>
+            </Button>
+            <Button focusTraversable="false" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
+         </children>
+      </HBox>
+      <VBox layoutY="110.0" prefHeight="578.0" prefWidth="882.0">
+         <children>
+            <HBox prefHeight="364.0" prefWidth="882.0" spacing="4.5">
+               <children>
+                  <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="A" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatA" prefHeight="0.0" prefWidth="41.0" text="A" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Б" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatB" prefHeight="0.0" prefWidth="41.0" text="B" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="В" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatV" prefHeight="0.0" prefWidth="41.0" text="V" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Г" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatH" prefHeight="0.0" prefWidth="41.0" text="H" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ґ" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatG" prefHeight="0.0" prefWidth="41.0" text="G" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Д" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatD" prefHeight="0.0" prefWidth="41.0" text="D" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Е" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatE" prefHeight="0.0" prefWidth="41.0" text="E" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="45.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Є" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJE" prefHeight="0.0" prefWidth="41.0" text="JE" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ж" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatZH" prefHeight="0.0" prefWidth="41.0" text="Ž" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="З" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatZ" prefHeight="0.0" prefWidth="41.0" text="Z" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="И" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatY" prefHeight="0.0" prefWidth="41.0" text="Y" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="І" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatI" prefHeight="0.0" prefWidth="41.0" text="I" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ї" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJI" prefHeight="0.0" prefWidth="41.0" text="JI" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Й" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJ" prefHeight="0.0" prefWidth="41.0" text="J" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="К" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatK" prefHeight="0.0" prefWidth="41.0" text="K" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Л" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatL" prefHeight="0.0" prefWidth="41.0" text="L" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="М" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatM" prefHeight="0.0" prefWidth="41.0" text="M" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Н" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatN" prefHeight="0.0" prefWidth="41.0" text="N" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="О" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatO" prefHeight="0.0" prefWidth="41.0" text="O" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="П" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatP" prefHeight="0.0" prefWidth="41.0" text="P" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Р" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatR" prefHeight="0.0" prefWidth="41.0" text="R" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="С" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatS" prefHeight="0.0" prefWidth="41.0" text="S" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Т" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatT" prefHeight="0.0" prefWidth="41.0" text="T" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="У" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatU" prefHeight="0.0" prefWidth="41.0" text="U" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ф" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatF" prefHeight="0.0" prefWidth="41.0" text="F" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Х" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatKH" prefHeight="0.0" prefWidth="41.0" text="X" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ц" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatC" prefHeight="0.0" prefWidth="41.0" text="C" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ч" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatCH" prefHeight="0.0" prefWidth="41.0" text="Č" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ш" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatSH" prefHeight="0.0" prefWidth="41.0" text="Š" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Щ" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatSHCH" prefHeight="0.0" prefWidth="41.0" text="ŠČ" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ь" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatSoft" prefHeight="0.0" prefWidth="41.0" text="'" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Ю" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJU" prefHeight="0.0" prefWidth="41.0" text="JU" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Я" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJA" prefHeight="0.0" prefWidth="41.0" text="JA" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="ЙО" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJO" prefHeight="0.0" prefWidth="41.0" text="JO" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="ЬО" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatSoftO" prefHeight="0.0" prefWidth="41.0" text="JO" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#applyDefaultLatin" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#applyCustomLatin" text="Button" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

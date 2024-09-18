@@ -1,0 +1,18 @@
+#textArea {
+    -fx-text-alignment: center;
+}
+
+#textAreaLatA, #textAreaLatB, #textAreaLatV, #textAreaLatD,
+#textAreaLatE, #textAreaLatZH, #textAreaLatZ, #textAreaLatY,
+#textAreaLatI, #textAreaLatJ, #textAreaLatK, #textAreaLatM,
+#textAreaLatN, #textAreaLatO, #textAreaLatP, #textAreaLatR,
+#textAreaLatS, #textAreaLatT, #textAreaLatU, #textAreaLatF,
+#textAreaLatC, #textAreaLatCH, #textAreaLatSH {
+    -fx-control-inner-background: #f1b1b1;
+}
+
+#textAreaLatH, #textAreaLatG, #textAreaLatJE, #textAreaLatJI,
+#textAreaLatL, #textAreaLatKH, #textAreaLatSHCH, #textAreaLatSoft,
+#textAreaLatJU, #textAreaLatJA, #textAreaLatJO, #textAreaLatSoftO {
+    -fx-control-inner-background: #bdffb9
+}
