@@ -29,7 +29,7 @@ public class MainApp extends Application {
         Scene fileScene = new Scene(fileSceneRoot); // Creates the File scene (for files' changing) with the FileTransliterationScene fxml objects
         Scene rulesScene = new Scene(rulesSceneRoot); // Creates the File scene (for files' changing) with the FileTransliterationScene fxml objects
         primaryStage.setTitle("Transliterator");
-        primaryStage.setScene(rulesScene); // textScene is used as the scene we see after launching the software (could've been fileScene)
+        primaryStage.setScene(textScene); // textScene is used as the scene we see after launching the software (could've been fileScene)
         primaryStage.show();
 
         SceneController sceneController = new SceneController(primaryStage, textScene, fileScene, rulesScene); //Creates a SceneController (which contains two methods for switching between the text and file scenes) and passes the primary stage, text scene, and file scene to it. The stage is required to call stage.setScene(scene) when switching between scenes
@@ -41,6 +41,8 @@ public class MainApp extends Application {
         rulesChangingController.setSceneController(sceneController); // Passes the sceneController to the instance. It needs the sceneController object to use its switch method and link it to the fxml button
 
         fileSceneController.setStage(primaryStage); //The instance (fileSceneController) needs the stage for using DirectoryChooser class
+        rulesChangingController.setStage(primaryStage); //The instance (rulesChangingController) needs the stage for using DirectoryChooser class
+
 
         textScene.getStylesheets().add(getClass().getResource("/textResources/TextStyle.css").toExternalForm());
         rulesScene.getStylesheets().add(getClass().getResource("/rulesResources/RulesStyle.css").toExternalForm());

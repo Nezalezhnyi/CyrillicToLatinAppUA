@@ -1,15 +1,23 @@
 package transliterator.scenes;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import transliterator.Transliterator;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static transliterator.Transliterator.removeTransliterationRule;
 
 public class RulesChangingController {
     private SceneController sceneController;
@@ -18,6 +26,7 @@ public class RulesChangingController {
     private final Map<TextArea, String> originalStyles = new HashMap<>();
     private Map<String, String> addedAdditionalRulesMap = new HashMap<>();
     private String oldAdditionalCustomRulesTextArea = "";
+    private Stage primaryStage;
 
     @FXML
     private TextArea textAreaLatA, textAreaLatB, textAreaLatV, textAreaLatH, textAreaLatG, textAreaLatD,
@@ -26,14 +35,16 @@ public class RulesChangingController {
             textAreaLatM, textAreaLatN, textAreaLatO, textAreaLatP, textAreaLatR,
             textAreaLatS, textAreaLatT, textAreaLatU, textAreaLatF, textAreaLatKH,
             textAreaLatC, textAreaLatCH, textAreaLatSH, textAreaLatSHCH,
-            textAreaLatSoft, textAreaLatJU, textAreaLatJA, textAreaLatJO, textAreaLatSoftO,
-            textAreaLatJABeforeConsonant, textAreaLatJUBeforeConsonant, textAreaLatJEBeforeConsonant;
+            textAreaLatSoft, textAreaLatJU, textAreaLatJA, textAreaLatJO, textAreaLatSoftO;
 
     @FXML
     private TextArea additionalCustomRulesTextArea;
 
     @FXML
     private Button applyRulesButton, applyAdditionalRulesButton;
+
+    @FXML
+    private Text textAboveAdditionalRulesTextArea, rulesWereResetText, saveTemplateText, loadTemplateText;
 
     @FXML
     public void initialize() {
@@ -91,6 +102,7 @@ public class RulesChangingController {
 
     }
 
+
     @FXML
     public void updateCustomTransliterationMap() {
         for (Map.Entry<String, TextArea> cyrillicAndLatinPair : textAreaMap.entrySet()) {  // textAreaMap contains all textAreaLats which user can change
@@ -119,44 +131,7 @@ public class RulesChangingController {
             }
 
         }
-        applyRulesButton.setStyle("-fx-border-color: #2AC139"); //BAD//
-    }
-
-    @FXML
-    public void highlightSameTextAreaLatValues() {
-        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
-            entry.getValue().setStyle(originalStyles.get(entry.getValue())); // Повертаємо початковий стиль
-        }
-
-        for (Map.Entry<String, TextArea> entryOriginal : textAreaMap.entrySet()) {
-            String textAreaValueTextOriginal = entryOriginal.getValue().getText().toLowerCase();
-            for (Map.Entry<String, TextArea> entryNext : textAreaMap.entrySet()) {
-
-                if (entryOriginal != entryNext && entryOriginal.getValue() != textAreaLatJO && entryOriginal.getValue() != textAreaLatSoftO) {
-                    String textAreaValueTextNext = entryNext.getValue().getText().toLowerCase();
-
-                    if (Objects.equals(textAreaValueTextOriginal, textAreaValueTextNext)) {
-                        entryOriginal.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
-                        entryNext.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
-                    }
-                }
-            }
-        }
-    }
-
-
-
-    @FXML
-    public void applyDefaultLatin() {
-        for (Map.Entry<TextArea, String> entry : transliterationToLatinMapDefault.entrySet()) {
-            entry.getKey().setText(entry.getValue());
-        }
-
-        for (Map.Entry<String, String> additionalRule : addedAdditionalRulesMap.entrySet()) {
-                if (Transliterator.getTransliterationToLatinRulesMap().containsKey(additionalRule.getKey())) {
-                    Transliterator.removeTransliterationRule(additionalRule.getKey());
-            }
-        }
+        applyRulesButton.setStyle("-fx-border-color: #2AC139"); //BAD// Льо -> lio
     }
 
     /////////!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -194,7 +169,18 @@ public class RulesChangingController {
                         addedAdditionalRulesMap.put(cyrillicRuleUpperCase, latinRuleUpperCase);
                         addedAdditionalRulesMap.put(firstLowerSecondUpperCyrillic, firstLowerSecondUpperLatin);
                         addedAdditionalRulesMap.put(firstUpperSecondLowerCyrillic, firstUpperSecondLowerLatin);
+
                     }
+                } else {
+                    textAboveAdditionalRulesTextArea.setText("Додаткове правило було написано в неправильному форматі");
+                    Timeline timeline = new Timeline(new KeyFrame(
+                            Duration.seconds(5),
+                            event -> textAboveAdditionalRulesTextArea.setText("")
+                    ));
+
+                    timeline.setCycleCount(1);
+                    timeline.play();
+                    return;
                 }
             }
             for (Map.Entry<String, String> entry : previousRules.entrySet()) {
@@ -204,16 +190,37 @@ public class RulesChangingController {
 
                 }
             }
-            System.out.println(addedAdditionalRulesMap);
-            System.out.println(previousRules);
             applyAdditionalRulesButton.setStyle("-fx-border-color: #2AC139"); //BAD/
             oldAdditionalCustomRulesTextArea = inputText;
 
+
         }  catch (Exception e) {
-            System.out.println(1);
+            textAboveAdditionalRulesTextArea.setText("Додаткове правило було написано в неправильному форматі");
             }
 
         }
+
+    @FXML
+    public void highlightSameTextAreaLatValues() {
+        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
+            entry.getValue().setStyle(originalStyles.get(entry.getValue())); // Повертаємо початковий стиль
+        }
+
+        for (Map.Entry<String, TextArea> entryOriginal : textAreaMap.entrySet()) {
+            String textAreaValueTextOriginal = entryOriginal.getValue().getText().toLowerCase();
+            for (Map.Entry<String, TextArea> entryNext : textAreaMap.entrySet()) {
+
+                if (entryOriginal != entryNext && entryOriginal.getValue() != textAreaLatJO && entryOriginal.getValue() != textAreaLatSoftO) {
+                    String textAreaValueTextNext = entryNext.getValue().getText().toLowerCase();
+
+                    if (Objects.equals(textAreaValueTextOriginal, textAreaValueTextNext)) {
+                        entryOriginal.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
+                        entryNext.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
+                    }
+                }
+            }
+        }
+    }
 
     @FXML
     public void changeAddAdditionalCustomRulesButtonColorIfTextAreaLatChangesDetected() {
@@ -236,6 +243,21 @@ public class RulesChangingController {
                 applyRulesButton.setStyle("-fx-border-color: #2AC139");
             }
         }
+    }
+
+    @FXML
+    public void applyDefaultLatin() {
+        for (Map.Entry<TextArea, String> entry : transliterationToLatinMapDefault.entrySet()) {
+            entry.getKey().setText(entry.getValue());
+        }
+
+        for (Map.Entry<String, String> additionalRule : addedAdditionalRulesMap.entrySet()) {
+            if (Transliterator.getTransliterationToLatinRulesMap().containsKey(additionalRule.getKey())) {
+                Transliterator.removeTransliterationRule(additionalRule.getKey());
+            }
+        }
+        updateCustomTransliterationMap();
+        showSuccessfulMessage(rulesWereResetText, "Правила успішно скинуто!");
     }
 
     @FXML
@@ -292,4 +314,101 @@ public class RulesChangingController {
     }
 
 
+
+    //////////////////////
+    @FXML
+    public void saveTemplate() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(primaryStage);
+
+        if (selectedDirectory != null) {
+            String filePath = selectedDirectory.getAbsolutePath() + "/template.txt"; // Зберігаємо у файл template.txt
+            try (FileWriter writer = new FileWriter(filePath)) {
+                for (Map.Entry<String, String> entry : Transliterator.getTransliterationToLatinRulesMap().entrySet()) {
+                    writer.write(entry.getKey() + "=" + entry.getValue() + "\n"); // Записуємо кожен запис у форматі key=value
+                }
+                showSuccessfulMessage(saveTemplateText, "Шаблон успішно збережено");
+            } catch (IOException e) {
+                showErrorMessage(saveTemplateText);
+            }
+        }
+    }
+
+    @FXML
+    public void loadTemplate() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"));
+        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+
+        if (selectedFile != null) {
+            String filePath = selectedFile.getAbsolutePath();
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                Map<String, String> loadedMap = new HashMap<>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.contains("=")) {throw new IOException();}
+                    String[] parts = line.split("=", 2);  // Розбиваємо кожен рядок на ключ і значення
+                    if (parts.length == 2) {
+                        loadedMap.put(parts[0], parts[1]); // Додаємо в мапу ключ і значення
+                    }
+                }
+
+                for (Map.Entry<String, String> entry : loadedMap.entrySet()) {
+                    Transliterator.updateTransliterationRule(entry.getKey(), entry.getValue());
+                }
+
+                for (Map.Entry<String, TextArea> textAreaCyrillicToLatinRule : textAreaMap.entrySet()) {
+                    String cyrillicRule = textAreaCyrillicToLatinRule.getKey();
+                    String currentText = textAreaCyrillicToLatinRule.getValue().getText(); // Отримуємо поточний текст з TextArea
+                    String transliterationRule = Transliterator.getTransliterationToLatinRulesMap().get(cyrillicRule).toUpperCase(); // Отримуємо правило з гешмапи
+
+                    if (!Objects.equals(currentText, transliterationRule)) {
+                        textAreaCyrillicToLatinRule.getValue().setText(transliterationRule.toUpperCase()); // Оновлюємо текст в TextArea
+                    }
+                }
+
+                showSuccessfulMessage(loadTemplateText, "Шаблон успішно завантажено!");
+
+
+            } catch (IOException e) {
+                showErrorMessage(loadTemplateText);
+            }
+        }
+
+
+    }
+
+    private void showErrorMessage(Text textUnderButton) {
+        textUnderButton.setFill(Color.RED);
+        textUnderButton.setText("Сталася помилка");
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(5),
+                event -> textUnderButton.setText("")
+        ));
+
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    private void showSuccessfulMessage(Text textUnderButton, String message) {
+        textUnderButton.setFill(Color.valueOf("#059422"));
+        textUnderButton.setText(message);
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(5),
+                event -> textUnderButton.setText("")
+        ));
+
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    public void setStage(Stage primaryStage) {
+        primaryStage = primaryStage;
+    }
+
+
+
 }
+
+
+

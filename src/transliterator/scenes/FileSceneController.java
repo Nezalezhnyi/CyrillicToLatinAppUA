@@ -1,5 +1,7 @@
 package transliterator.scenes;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
@@ -7,6 +9,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import transliterator.Transliterator;
 
 import java.io.File;
@@ -141,19 +144,40 @@ public class FileSceneController {
     }
     
     private void showSuccessfulTransliterationMessage(Text textUnderButton) {
-        textUnderButton.setText("Файли було успішно транслітеровано!"); // Writes the text under a button after transliteration (when the files were chosen)
-        textUnderButton.setFill(Color.GREEN);
         textOfSelectedFiles.setText("Оберіть один файл або більше"); // Resets the text area after successful transliteration, as the file list is no longer needed
+        textUnderButton.setFill(Color.GREEN);
+        textUnderButton.setText("Файли було успішно транслітеровано!"); // Writes the text under a button after transliteration (when the files were chosen)
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(5),
+                event -> textUnderButton.setText("")
+        ));
+
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     private void showFilesAreNotChosenMessage(Text textUnderButton) {
         textUnderButton.setFill(Color.RED);
         textUnderButton.setText("Оберіть файли перш ніж почати транслітерацію"); // Is used it checkIfFilesChosen() method if we didn't choose files
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(5),
+                event -> textUnderButton.setText("")
+        ));
+
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     private void showInvalidFileFormatMessage(Text textUnderButton) {
         textUnderButton.setFill(Color.RED);
         textUnderButton.setText("Обрано файл із непідтримуваним форматом");
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(5),
+                event -> textUnderButton.setText("")
+        ));
+
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     private void switchCyrillicAndLatinTextsAboveTextAreas() {
@@ -193,5 +217,13 @@ public class FileSceneController {
 
     public void setStage(Stage stage) {
         this.stage = stage; // Is used for DirectoryChooser (to prevent interaction with the transliteration software while choosing a directory)
+    }
+
+    public static void delayInSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L); // Затримка в мілісекундах
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
