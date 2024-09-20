@@ -1,6 +1,7 @@
 package transliterator.scenes;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import transliterator.Transliterator;
 
@@ -8,8 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static transliterator.Transliterator.removeTransliterationRule;
+
 public class RulesChangingController {
     private SceneController sceneController;
+    private final Map<TextArea, String> transliterationToLatinMapDefault = new HashMap<>();
+    private final Map<String, TextArea> textAreaMap = new HashMap<>();
+    private final Map<TextArea, String> originalStyles = new HashMap<>();
+    private Map<String, String> addedAdditionalRulesMap = new HashMap<>();
+    private String oldAdditionalCustomRulesTextArea = "";
 
     @FXML
     private TextArea textAreaLatA, textAreaLatB, textAreaLatV, textAreaLatH, textAreaLatG, textAreaLatD,
@@ -18,48 +26,14 @@ public class RulesChangingController {
             textAreaLatM, textAreaLatN, textAreaLatO, textAreaLatP, textAreaLatR,
             textAreaLatS, textAreaLatT, textAreaLatU, textAreaLatF, textAreaLatKH,
             textAreaLatC, textAreaLatCH, textAreaLatSH, textAreaLatSHCH,
-            textAreaLatSoft, textAreaLatJU, textAreaLatJA, textAreaLatJO, textAreaLatSoftO;
+            textAreaLatSoft, textAreaLatJU, textAreaLatJA, textAreaLatJO, textAreaLatSoftO,
+            textAreaLatJABeforeConsonant, textAreaLatJUBeforeConsonant, textAreaLatJEBeforeConsonant;
 
-    private final Map<TextArea, String> transliterationToLatinMapDefault = new HashMap<>();
-    private final Map<String, TextArea> textAreaMap = new HashMap<>();
-    private final Map<TextArea, String> originalStyles = new HashMap<>();
-
-    //////
     @FXML
-    public void updateCustomTransliterationMap() {
-        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
-            String valueText = entry.getValue().getText(); // All letters of any valueText are uppercase!!!
-            String cyrillicLetterLowerCase = entry.getKey();
-            String newLatinValueLowerCase = valueText.toLowerCase();
-            Transliterator.updateTransliterationRule(cyrillicLetterLowerCase, newLatinValueLowerCase);
-            String cyrillicLetterUpperCase = entry.getKey().toUpperCase();
-            String newLatinValueUpperCase = valueText.length() == 1 ? valueText.toUpperCase() : valueText.substring(0, 1).toUpperCase() + valueText.substring(1).toLowerCase();
-            Transliterator.updateTransliterationRule(cyrillicLetterUpperCase, newLatinValueUpperCase);
-        }
-    }
-    //////
+    private TextArea additionalCustomRulesTextArea;
 
-    public void highlightSameTextAreaLatValues() {
-        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
-            entry.getValue().setStyle(originalStyles.get(entry.getValue())); // Повертаємо початковий стиль
-        }
-
-        for (Map.Entry<String, TextArea> entryOriginal : textAreaMap.entrySet()) {
-            String textAreaValueTextOriginal = entryOriginal.getValue().getText();
-            for (Map.Entry<String, TextArea> entryNext : textAreaMap.entrySet()) {
-
-                if (entryOriginal != entryNext && entryOriginal.getValue() != textAreaLatJO && entryOriginal.getValue() != textAreaLatSoftO) {
-                    String textAreaValueTextNext = entryNext.getValue().getText();
-
-                    if (Objects.equals(textAreaValueTextOriginal, textAreaValueTextNext)) {
-                        entryOriginal.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
-                        entryNext.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
-                    }
-                }
-            }
-        }
-    }
-
+    @FXML
+    private Button applyRulesButton, applyAdditionalRulesButton;
 
     @FXML
     public void initialize() {
@@ -104,27 +78,165 @@ public class RulesChangingController {
         textAreaMap.put("йо", textAreaLatJO);
         textAreaMap.put("ьо", textAreaLatSoftO);
 
-        //////
         for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
             TextArea textArea = entry.getValue();
-                textArea.textProperty().addListener((observable, oldValue, newValue) -> {
-                    highlightSameTextAreaLatValues();
-                });
+            textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+                highlightSameTextAreaLatValues();
+                changeApplyChangesButtonColorIfTextAreaLatChangesDetected();
+            });
         }
-        //////
+        additionalCustomRulesTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            changeAddAdditionalCustomRulesButtonColorIfTextAreaLatChangesDetected();
+        });
 
     }
+
+    @FXML
+    public void updateCustomTransliterationMap() {
+        for (Map.Entry<String, TextArea> cyrillicAndLatinPair : textAreaMap.entrySet()) {  // textAreaMap contains all textAreaLats which user can change
+            String latinRule = cyrillicAndLatinPair.getValue().getText().trim();  // We get the value of a textAreaLat, convert it to text and erase all spaces
+            String cyrillicLetterLowerCase = cyrillicAndLatinPair.getKey().trim(); // We get a lower case cyrillic letter which corresponds its latin one
+
+            // If it's "ьо", we need to process this letter in a special way
+            if (cyrillicLetterLowerCase.equals("ьо")) {
+                String newLatinRuleLowerCase = latinRule.toLowerCase().trim(); // "io" -> lowercase letter
+                String newLatinRuleUpperCase = latinRule.toUpperCase().trim(); // "IO" -> uppercase letter
+
+                // Adds four special rules for "ьо" to the map
+                Transliterator.updateTransliterationRule("ьо", newLatinRuleLowerCase); // "ьо" -> "io"
+                Transliterator.updateTransliterationRule("ЬО", newLatinRuleUpperCase); // "ЬО" -> "IO"
+                Transliterator.updateTransliterationRule("ьО", newLatinRuleLowerCase.charAt(0) + newLatinRuleUpperCase.substring(1)); // "ьО" -> "iO"
+                Transliterator.updateTransliterationRule("Ьо", newLatinRuleUpperCase.charAt(0) + newLatinRuleLowerCase.substring(1)); // "Ьо" -> "Io"
+            } else {
+                // Standard rule for all letters
+                String newLatinRuleLowerCase = latinRule.toLowerCase();
+                Transliterator.updateTransliterationRule(cyrillicLetterLowerCase, newLatinRuleLowerCase); // A lowercase cyrillic letter always corresponds to its latin one
+
+                String newLatinRuleUpperCase = latinRule.length() == 1 // If a new latin rule (in textArea box) is composed of only one letter,
+                        ? latinRule.toUpperCase() // then its capital form corresponds the capital cyrillic analogue;
+                        : latinRule.substring(0, 1).toUpperCase() + latinRule.substring(1).toLowerCase(); // if the latin rule has more
+                Transliterator.updateTransliterationRule(cyrillicLetterLowerCase.toUpperCase(), newLatinRuleUpperCase);
+            }
+
+        }
+        applyRulesButton.setStyle("-fx-border-color: #2AC139"); //BAD//
+    }
+
+    @FXML
+    public void highlightSameTextAreaLatValues() {
+        for (Map.Entry<String, TextArea> entry : textAreaMap.entrySet()) {
+            entry.getValue().setStyle(originalStyles.get(entry.getValue())); // Повертаємо початковий стиль
+        }
+
+        for (Map.Entry<String, TextArea> entryOriginal : textAreaMap.entrySet()) {
+            String textAreaValueTextOriginal = entryOriginal.getValue().getText().toLowerCase();
+            for (Map.Entry<String, TextArea> entryNext : textAreaMap.entrySet()) {
+
+                if (entryOriginal != entryNext && entryOriginal.getValue() != textAreaLatJO && entryOriginal.getValue() != textAreaLatSoftO) {
+                    String textAreaValueTextNext = entryNext.getValue().getText().toLowerCase();
+
+                    if (Objects.equals(textAreaValueTextOriginal, textAreaValueTextNext)) {
+                        entryOriginal.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
+                        entryNext.getValue().setStyle("-fx-control-inner-background: #FFFF99;");
+                    }
+                }
+            }
+        }
+    }
+
 
 
     @FXML
-    private void applyDefaultLatin() {
+    public void applyDefaultLatin() {
         for (Map.Entry<TextArea, String> entry : transliterationToLatinMapDefault.entrySet()) {
             entry.getKey().setText(entry.getValue());
         }
+
+        for (Map.Entry<String, String> additionalRule : addedAdditionalRulesMap.entrySet()) {
+                if (Transliterator.getTransliterationToLatinRulesMap().containsKey(additionalRule.getKey())) {
+                    Transliterator.removeTransliterationRule(additionalRule.getKey());
+            }
+        }
     }
 
+    /////////!!!!!!!!!!!!!!!!!!!!!!!!!
+    @FXML
+    public void addAdditionalCustomRules() {
+        Map<String, String> previousRules = new HashMap<>(addedAdditionalRulesMap);
 
+        String inputText = additionalCustomRulesTextArea.getText().trim(); // Gets the text from the textArea bar
+        String[] ruleParts = inputText.isEmpty() ? new String[0] : inputText.split(","); // If we have many rules, it will create an array with [cyrillicRule0 -> latinRule0, cyrillicRule1 -> latinRule1, ...]
 
+        try {
+            addedAdditionalRulesMap.clear();
+            for (String rule : ruleParts) {
+                if (rule.contains("=")) {
+                    String[] cyrillicAndLatinLetters = rule.split("="); // Breaks down cyrillicRule -> latinRule into [cyrillicRule, latinRule]
+                    if (cyrillicAndLatinLetters.length == 2) {
+                        String cyrillicRule = cyrillicAndLatinLetters[0].trim(); // Erases all spaces since we need only the cyrillicRule
+                        String latinRule = cyrillicAndLatinLetters[1].trim(); // Erases all spaces since we need only the latinRule
+
+                        String cyrillicRuleUpperCase = cyrillicRule.toUpperCase(); //ля
+                        String cyrillicRuleLowerCase = cyrillicRule.toLowerCase(); //ЛЯ
+                        String latinRuleUpperCase = latinRule.toUpperCase(); //LA
+                        String latinRuleLowerCase = latinRule.toLowerCase(); //la
+
+                        Transliterator.updateTransliterationRule(cyrillicRuleLowerCase, latinRuleLowerCase); // "ля" -> "la"
+                        Transliterator.updateTransliterationRule(cyrillicRuleUpperCase, latinRuleUpperCase); // "ЛЯ" -> "LA"
+                        String firstLowerSecondUpperCyrillic = cyrillicRuleLowerCase.charAt(0) + cyrillicRuleUpperCase.substring(1); // ьО
+                        String firstLowerSecondUpperLatin = latinRuleLowerCase.charAt(0) + latinRuleUpperCase.substring(1); // iO
+                        Transliterator.updateTransliterationRule(firstLowerSecondUpperCyrillic, firstLowerSecondUpperLatin); // "ьО" -> "iO"
+                        String firstUpperSecondLowerCyrillic = cyrillicRuleUpperCase.charAt(0) + cyrillicRuleLowerCase.substring(1); // Ьо
+                        String firstUpperSecondLowerLatin = latinRuleUpperCase.charAt(0) + latinRuleLowerCase.substring(1); // Io
+                        Transliterator.updateTransliterationRule(firstUpperSecondLowerCyrillic, firstUpperSecondLowerLatin); // "Ьо" -> "Io"
+
+                        addedAdditionalRulesMap.put(cyrillicRuleLowerCase, latinRuleLowerCase);
+                        addedAdditionalRulesMap.put(cyrillicRuleUpperCase, latinRuleUpperCase);
+                        addedAdditionalRulesMap.put(firstLowerSecondUpperCyrillic, firstLowerSecondUpperLatin);
+                        addedAdditionalRulesMap.put(firstUpperSecondLowerCyrillic, firstUpperSecondLowerLatin);
+                    }
+                }
+            }
+            for (Map.Entry<String, String> entry : previousRules.entrySet()) {
+                if (!addedAdditionalRulesMap.containsKey(entry.getKey())) {
+                    Transliterator.removeTransliterationRule(entry.getKey());
+                    addedAdditionalRulesMap.remove(entry.getKey());
+
+                }
+            }
+            System.out.println(addedAdditionalRulesMap);
+            System.out.println(previousRules);
+            applyAdditionalRulesButton.setStyle("-fx-border-color: #2AC139"); //BAD/
+            oldAdditionalCustomRulesTextArea = inputText;
+
+        }  catch (Exception e) {
+            System.out.println(1);
+            }
+
+        }
+
+    @FXML
+    public void changeAddAdditionalCustomRulesButtonColorIfTextAreaLatChangesDetected() {
+        if (!Objects.equals(additionalCustomRulesTextArea.getText(), oldAdditionalCustomRulesTextArea))
+            applyAdditionalRulesButton.setStyle("-fx-border-color: #FF6464");
+        else
+            applyAdditionalRulesButton.setStyle("-fx-border-color: #2AC139");
+    }
+
+    @FXML
+    public void changeApplyChangesButtonColorIfTextAreaLatChangesDetected() {
+         for (Map.Entry<String, TextArea> changedButNotUpdatedRules : textAreaMap.entrySet()) {
+            String changedButNotUpdatedLatinRule = changedButNotUpdatedRules.getValue().getText().toLowerCase();
+            String currentLatinRule = Transliterator.getTransliterationToLatinRulesMap().get(changedButNotUpdatedRules.getKey());
+            if (!Objects.equals(changedButNotUpdatedLatinRule, currentLatinRule)) {
+                applyRulesButton.setStyle("-fx-border-color: #FF6464");
+                return;
+            }
+            else {
+                applyRulesButton.setStyle("-fx-border-color: #2AC139");
+            }
+        }
+    }
 
     @FXML
     public void switchToTextTransliterationScene (){
@@ -134,10 +246,6 @@ public class RulesChangingController {
     @FXML
     public void switchToFileTransliterationScene () {
         sceneController.switchToFileTransliterationScene(); //Switches to the file transliteration scene using the sceneController
-    }
-
-    public void setSceneController(SceneController sceneController) {
-        this.sceneController = sceneController;
     }
 
     private void saveDefaultValues() {
@@ -179,7 +287,9 @@ public class RulesChangingController {
         transliterationToLatinMapDefault.put(textAreaLatSoftO, textAreaLatSoftO.getText());
     }
 
-
+    public void setSceneController(SceneController sceneController) {
+        this.sceneController = sceneController;
+    }
 
 
 }

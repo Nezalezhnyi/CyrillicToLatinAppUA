@@ -107,7 +107,16 @@ public class FileSceneController {
 
     private String generateNewFileName(File originalFile) {
         String originalName = originalFile.getName();
-        return originalName.replaceFirst("(\\.[^.]+)$", "_latin$1");
+        if (originalName.contains("_latin"))
+           originalName = originalName.replace("_latin", "");
+        if (originalName.contains("_cyrillic"))
+            originalName = originalName.replace("_cyrillic", "");
+
+        if (isToLatin)
+            return originalName.replaceFirst("(\\.[^.]+)$", "_latin$1");
+        else
+            return originalName.replaceFirst("(\\.[^.]+)$", "_cyrillic$1");
+
     }
 
     private void updateTextAreaListOfChosenFiles() {

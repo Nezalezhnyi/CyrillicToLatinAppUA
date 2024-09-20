@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transliterator.scenes.RulesChangingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="715.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="transliterator.scenes.RulesChangingController">
    <children>
       <HBox alignment="CENTER" layoutY="1.0" prefHeight="109.0" prefWidth="882.0" spacing="65.0">
          <children>
@@ -34,11 +34,11 @@
                </HBox.margin></Button>
          </children>
       </HBox>
-      <VBox layoutY="110.0" prefHeight="578.0" prefWidth="882.0">
+      <VBox layoutY="110.0" prefHeight="605.0" prefWidth="882.0">
          <children>
-            <HBox prefHeight="364.0" prefWidth="882.0" spacing="4.5">
+            <HBox prefHeight="386.0" prefWidth="882.0" spacing="4.5">
                <children>
-                  <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
+                  <VBox prefHeight="479.0" prefWidth="162.0" spacing="20.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
                            <children>
@@ -124,7 +124,7 @@
                               <TextArea fx:id="textAreaLatD" prefHeight="0.0" prefWidth="41.0" text="D" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="107.0" prefWidth="162.0">
                            <children>
                               <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="Е" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
@@ -136,6 +136,20 @@
                                  </font>
                               </Text>
                               <TextArea fx:id="textAreaLatE" prefHeight="0.0" prefWidth="41.0" text="E" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="107.0" prefWidth="162.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="-&gt;Я" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJABeforeConsonant" prefHeight="0.0" prefWidth="41.0" text="JA" />
                            </children>
                         </HBox>
                      </children>
@@ -243,6 +257,20 @@
                               <TextArea fx:id="textAreaLatJ" prefHeight="0.0" prefWidth="41.0" text="J" />
                            </children>
                         </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="42.0" text="-&gt;Ю" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJUBeforeConsonant" prefHeight="0.0" prefWidth="41.0" text="JU" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                   <VBox prefHeight="386.0" prefWidth="162.0" spacing="20.0">
@@ -343,6 +371,20 @@
                                  </font>
                               </Text>
                               <TextArea fx:id="textAreaLatR" prefHeight="0.0" prefWidth="41.0" text="R" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="6.0" prefWidth="167.0">
+                           <children>
+                              <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="41.0" text="-&gt;Е" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Algerian" size="24.0" />
+                                 </font>
+                              </Text>
+                              <TextArea fx:id="textAreaLatJEBeforeConsonant" prefHeight="0.0" prefWidth="41.0" text="JE" />
                            </children>
                         </HBox>
                      </children>
@@ -553,11 +595,41 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="34.0" prefWidth="882.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#applyDefaultLatin" text="ToDefault" />
-                  <Button mnemonicParsing="false" onAction="#updateCustomTransliterationMap" text="Apply" />
+                  <Button fx:id="applyAdditionalRulesButton" focusTraversable="false" mnemonicParsing="false" onAction="#addAdditionalCustomRules" prefHeight="34.0" prefWidth="150.0" text="Задати правила">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="40.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextArea fx:id="additionalCustomRulesTextArea" prefHeight="0.0" prefWidth="583.0" />
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin></HBox>
+            <HBox alignment="CENTER" prefHeight="131.0" prefWidth="882.0" spacing="40.0">
+               <children>
+                  <Button focusTraversable="false" mnemonicParsing="false" onAction="#applyDefaultLatin" text="Скинути правила">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font></Button>
+                  <Button fx:id="applyRulesButton" focusTraversable="false" mnemonicParsing="false" onAction="#updateCustomTransliterationMap" text="Застосувати правила">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font></Button>
+                  <Button focusTraversable="false" mnemonicParsing="false" text="Зберегти шаблон">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button focusTraversable="false" mnemonicParsing="false" text="Відкрити шаблон">
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Button>
                </children>
             </HBox>
          </children>
