@@ -1,30 +1,33 @@
-package transliterator.scenes;
+package com.darion.app.controller;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class SceneController {
     private final Stage stage;
-    private final Scene textScene;
+    private final Scene translatorScene;
     private final Scene fileScene;
     private final Scene rulesScene;
 
-    public SceneController(Stage stage, Scene textScene, Scene fileScene, Scene rulesScene) {
+    public SceneController(Stage stage, Scene translatorScene, Scene fileScene, Scene rulesScene) {
         this.stage = stage;
-        this.textScene = textScene;
+        this.translatorScene = translatorScene;
         this.fileScene = fileScene;
         this.rulesScene = rulesScene;
     }
 
-    public void switchToTextTransliterationScene() {
-        stage.setScene(textScene);
+    public void toTranslatorScene() {
+        stage.setScene(translatorScene);
+
     }
 
-    public void switchToFileTransliterationScene () {
+    public void toFileScene() {
         stage.setScene(fileScene);
     }
 
-    public void switchToRulesChangingScene () {
+    public void toRulesScene() {
         stage.setScene(rulesScene);
     }
+
+
 }
