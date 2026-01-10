@@ -14,7 +14,6 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public class FileController {
 
     private SceneController sceneController;
     private List<File> selectedFiles;
-    private TransliterationEngine engine = new TransliterationEngine();
     private boolean isCyrillicToLatin = true;
 
     @FXML
@@ -74,25 +72,26 @@ public class FileController {
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-                new FileChooser.ExtensionFilter("All Files", "*.*")
-        );
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
 
         Stage stage = (Stage) chooseFilesButton.getScene().getWindow();
 
         selectedFiles = fileChooser.showOpenMultipleDialog(stage);
-        if (selectedFiles == null) return;
+        if (selectedFiles == null)
+            return;
 
         addFilesNamesToTextArea();
     }
 
     @FXML
     public void onTransliterateChosenFiles() {
-        if (selectedFiles == null || selectedFiles.isEmpty()) return;
+        if (selectedFiles == null || selectedFiles.isEmpty())
+            return;
 
         for (File file : selectedFiles) {
             try {
                 String text = Files.readString(file.toPath());
-                String transliteratedText = engine.transliterate(text, isCyrillicToLatin);
+                String transliteratedText = TransliterationEngine.transliterate(text, isCyrillicToLatin);
                 Files.writeString(file.toPath(), transliteratedText);
             } catch (IOException e) {
                 System.err.println("Failed to process file: " + file.getName());
@@ -100,8 +99,7 @@ public class FileController {
             }
         }
 
-
-            addSuccessMessage(newFilesSuccessLabel);
+        addSuccessMessage(newFilesSuccessLabel);
 
         filesTextArea.clear();
 
@@ -110,7 +108,8 @@ public class FileController {
 
     @FXML
     public void onCreateNewFiles() {
-        if (selectedFiles == null || selectedFiles.isEmpty()) return;
+        if (selectedFiles == null || selectedFiles.isEmpty())
+            return;
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Target Folder");
@@ -118,12 +117,13 @@ public class FileController {
         Stage stage = (Stage) filesTextArea.getScene().getWindow();
         File selectedDirectory = directoryChooser.showDialog(stage);
 
-        if (selectedDirectory == null) return;
+        if (selectedDirectory == null)
+            return;
 
         for (File file : selectedFiles) {
             try {
                 String text = Files.readString(file.toPath());
-                String transliteratedText = engine.transliterate(text, isCyrillicToLatin);
+                String transliteratedText = TransliterationEngine.transliterate(text, isCyrillicToLatin);
 
                 String originalFileName = file.getName();
                 String newName;
@@ -157,7 +157,6 @@ public class FileController {
         updateUI();
     }
 
-
     @FXML
     public void onNextScene() {
         sceneController.toRulesScene();
@@ -175,7 +174,9 @@ public class FileController {
     private void addSuccessMessage(Label label) {
         label.setVisible(true);
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(actionEvent -> {label.setVisible(false);});
+        pause.setOnFinished(actionEvent -> {
+            label.setVisible(false);
+        });
         pause.playFromStart();
     }
 
@@ -195,7 +196,8 @@ public class FileController {
 
     private void setLabelStyle(Label label, String text, String styleClass) {
         label.setText(text);
-        label.getStyleClass().removeAll("latin-style", "cyrillic-style", "arrow-to-cyrillic-style", "arrow-to-latin-style");
+        label.getStyleClass().removeAll("latin-style", "cyrillic-style", "arrow-to-cyrillic-style",
+                "arrow-to-latin-style");
         label.getStyleClass().add(styleClass);
     }
 
@@ -205,7 +207,8 @@ public class FileController {
     }
 
     private void addFilesNamesToTextArea() {
-        if (selectedFiles.isEmpty()) return;
+        if (selectedFiles.isEmpty())
+            return;
 
         String text = String.join(", ", selectedFiles.stream().map(File::getName).toList());
 

@@ -2,25 +2,15 @@ package com.darion.app.controller;
 
 import com.darion.app.model.TransliterationEngine;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.util.regex.Pattern;
-
-
-public class TranslatorController  {
+public class TranslatorController {
     @FXML
     private TextArea leftTextArea;
 
@@ -91,7 +81,9 @@ public class TranslatorController  {
 
     private void triggerCopySuccessMessage() {
         copiedLabel.setVisible(true);
-        pause.setOnFinished(actionEvent -> {copiedLabel.setVisible(false);});
+        pause.setOnFinished(actionEvent -> {
+            copiedLabel.setVisible(false);
+        });
         pause.playFromStart();
     }
 

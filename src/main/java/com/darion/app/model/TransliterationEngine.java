@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
@@ -82,8 +81,7 @@ public class TransliterationEngine {
             entry("Ю", "Ju"),
             entry("Я", "Ja"),
             entry("Йо", "Jo"),
-            entry("ЬО", "JO")
-    );
+            entry("ЬО", "JO"));
 
     private static Map<String, String> DEFAULT_LATIN_TO_CYRILLIC = new HashMap<>();
 
@@ -95,12 +93,12 @@ public class TransliterationEngine {
         LATIN_TO_CYRILLIC = new HashMap<>(DEFAULT_LATIN_TO_CYRILLIC);
     }
 
-
     public static String transliterate(String text, boolean isCyrillicToLatin) {
         Map<String, String> rules = (isCyrillicToLatin) ? CYRILLIC_TO_LATIN : LATIN_TO_CYRILLIC;
 
         List<String> sortedKeys = rules.keySet().stream()
-                .sorted(Comparator.comparingInt(String::length).reversed()).toList(); //from longest (йо, ьо...) to shortest
+                .sorted(Comparator.comparingInt(String::length).reversed()).toList(); // from longest (йо, ьо...) to
+                                                                                      // shortest
 
         for (String key : sortedKeys)
             text = text.replace(key, rules.get(key));

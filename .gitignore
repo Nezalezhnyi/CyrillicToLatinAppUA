@@ -1,20 +1,18 @@
-### IntelliJ IDEA ###
+# Maven
+target/
+*.log
+
+# IntelliJ (Old trash)
 .idea/
 *.iml
-*.iws
-out/
 
-### Java Compiled Files ###
+# VS Code (User specific settings)
+.vscode/
+*.code-workspace
+
+# Java
 *.class
 
-### Mac OS ###
+# OS junk
 .DS_Store
-
-### Windows ###
 Thumbs.db
-
-### Eclipse (Just in case you switch later) ###
-.classpath
-.project
-.settings/
-bin/
